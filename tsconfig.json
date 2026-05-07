@@ -1,24 +1,59 @@
 {
   "compilerOptions": {
+    // 阶段：编译
+    // 功能：控制输出的 JS 语法版本
     "target": "ESNext",
+    // 阶段：编译
+    // 功能：决定 TypeScript 编译器对 JSX 语法的处理方式
     "jsx": "preserve",
+    // 阶段：编译 + 编码
+    // 功能：告诉 TypeScript 从哪里获取 JSX 的类型定义和运行时工厂函数
     "jsxImportSource": "vue",
+    // 阶段：编码
+    // 功能：负责编码过程中中使用的全局 API 和内置对象的类型
     "lib": ["ESNext", "DOM"],
+    // 阶段：编译
+    // 功能：控制 TS 编译后的模块格式
     "module": "ESNext",
+    // 阶段：编码，编译
+    // 功能：指定模块解析策略为模拟打包器（Vite/esbuild）的行为
     "moduleResolution": "bundler",
+    // 路径别名映射：将 @/* 映射到 ./src/*（需与 Vite 配置中的别名保持一致）
     "paths": {
       "@/*": ["./src/*"]
     },
+    // 允许导入 JSON 文件，并获得类型推断
     "resolveJsonModule": true,
-    "types": ["node", "vite/client", "naive-ui/volar", "unplugin-icons/types/vue"],
+    // 全局类型定义（@types/ 或内置声明）
+    "types": [
+      // Node.js 核心模块类型（用于 vite.config 等）
+      "node",
+      // Vite 客户端类型（import.meta.env、资源导入等）
+      "vite/client",
+      // unplugin-icons 生成的图标组件类型
+      "unplugin-icons/types/vue"
+    ],
+    // 允许编译 .js 文件（用于混合 JS/TS 项目）
     "allowJs": true,
+    // 启用所有严格的类型检查选项（见下方各个 strict* 选项）
     "strict": true,
+    // 严格检查 null 和 undefined（防止“对象可能为 null”错误）
     "strictNullChecks": true,
+    // 未使用的局部变量报错（帮助清理无用代码）
     "noUnusedLocals": true,
+    // 启用 ES 模块与 CommonJS 的互操作性（允许 import foo from 'commonjs-pkg'）
     "esModuleInterop": true,
+    // 强制文件名大小写敏感（避免跨平台部署时找不到模块）
     "forceConsistentCasingInFileNames": true,
+    // 每个文件作为独立模块（满足 Vite/esbuild 等按文件转译工具的要求）
     "isolatedModules": true,
+    // 跳过依赖库（node_modules/.d.ts）的类型检查，提升编译速度
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", "eslint.config.js"]
+  // 这些路径不会被 TypeScript 编译/类型检查
+  "exclude": [
+    "node_modules",
+    "dist",
+    "eslint.config.js"
+  ]
 }

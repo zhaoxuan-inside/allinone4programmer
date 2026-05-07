@@ -68,7 +68,6 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         // 使用 Sass 的 modern API
         scss: {
-          api: 'modern',
         },
       },
     },
