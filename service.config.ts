@@ -4,6 +4,6 @@ export const serviceConfig: Record<ServiceEnvType, Record<string, string>> = {
     url: 'http://localhost:3000',
   },
   production: {
-    url: 'https://mock.apifox.cn/m1/4071143-0-default',
+    url: 'https://hardstone.org/home',
   },
 }
