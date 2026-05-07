@@ -3,7 +3,7 @@ export const serviceConfig: Record<ServiceEnvType, Record<string, string>> = {
   dev: {
     url: 'http://localhost:3000',
   },
-  production: {
+  prod: {
     url: 'https://hardstone.org/home',
   },
 }

@@ -13,5 +13,5 @@ export async function installRouter(app: App) {
   // 添加路由守卫
   setupRouterGuard(router)
   app.use(router)
-  await router.isReady() // https://router.vuejs.org/zh/api/index.html#isready
+  await router.isReady()
 }
