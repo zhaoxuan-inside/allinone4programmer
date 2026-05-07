@@ -36,6 +36,8 @@
     "sizecheck": "npx vite-bundle-visualizer"
   },
   "dependencies": {
+    "@iconify-json/heroicons": "^1.2.3",
+    "@iconify-json/mdi": "^1.2.3",
     "@vueuse/core": "^13.6.0",
     "alova": "^3.3.4",
     "colord": "^2.9.3",
@@ -56,6 +58,11 @@
     "@iconify-json/icon-park-outline": "^1.2.2",
     "@iconify/vue": "^5.0.0",
     "@types/node": "^24.1.0",
+    "@unocss/preset-icons": "^66.6.8",
+    "@unocss/preset-tagify": "^66.6.8",
+    "@unocss/preset-typography": "^66.6.8",
+    "@unocss/preset-web-fonts": "^66.6.8",
+    "@unocss/preset-wind4": "^66.6.8",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
     "eslint": "^9.29.0",
