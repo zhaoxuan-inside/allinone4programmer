@@ -37,6 +37,7 @@ const initializationPromise = (async () => {
       .glob<
       // 描述每个模块导出的对象结构。这里假设每个模块默认导出一个对象，该对象具备一个 install 方法，它接受一个 App 实例（Vue 应用实例）且无返回值（void）
       // 作用：为 import.meta.glob 的返回值提供类型提示和检查。
+      // install 方法是 ./modules/*.ts 每个 ts 文件都要实现的方法
       { install: (app: App) => void }
     >('./modules/*.ts', {
       // 配置选项对象，用来控制 import.meta.glob 的行为。
@@ -54,12 +55,16 @@ await initializationPromise
 
 const appStore = useAppStore()
 
+// 创建一个计算属性 naiveLocale，用于动态切换 Naive UI 组件的语言
 const naiveLocale = computed(() => {
-  return naiveI18nOptions[appStore.lang] ? naiveI18nOptions[appStore.lang] : naiveI18nOptions.enUS
+  return naiveI18nOptions[appStore.lang]
+    ? naiveI18nOptions[appStore.lang]
+    : naiveI18nOptions.enUS
 })
 </script>
 
 <template>
+  <!-- Naive UI 框架的 <n-config-provider> 作为顶层容器，让内部所有 Naive UI 组件共享统一的主题、语言、日期区域等配置 -->
   <n-config-provider
     class="wh-full"
     inline-theme-disabled
