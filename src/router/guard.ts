@@ -7,17 +7,25 @@ const title = import.meta.env.VITE_APP_NAME
 export function setupRouterGuard(router: Router) {
   const appStore = useAppStore()
   const routeStore = useRouteStore()
+  // 管理多标签页（Tab）的状态，addTab、setCurrentTab 等方法用于维护已打开的页面标签
   const tabStore = useTabStore()
 
-  router.beforeEach(async (to, from, next) => {
+  // next 是 Vue Router 导航守卫中用于控制导航行为的回调函数
+  // 必须调用 next() 来告诉路由下一步该做什么。
+  // 类似于 Express 中间件中的 next() 函数：不调用它，导航就会一直挂起（页面不会有任何变化，地址栏也不变）。
+
+  // 全局前置守卫（beforeEach）
+  router.beforeEach(async (to, _from, next) => {
     // 判断是否是外链，如果是直接打开网页并拦截跳转
     if (to.meta.href) {
       window.open(to.meta.href)
       next(false) // 取消当前导航
       return
     }
+
     // 开始 loadingBar
-    appStore.showProgress && window.$loadingBar?.start()
+    appStore.showProgress && window.$loadingBar
+      ?.start()
 
     // 判断有无TOKEN,登录鉴权
     const isLogin = Boolean(local.get('accessToken'))
@@ -39,11 +47,13 @@ export function setupRouterGuard(router: Router) {
     if (to.name === 'login') {
       // login页面不需要任何认证检查，直接放行
       // 继续执行后面的逻辑
+      return
     }
     // 如果路由明确设置了requiresAuth为false，直接放行
     else if (to.meta.requiresAuth === false) {
       // 明确设置为false的路由直接放行
       // 继续执行后面的逻辑
+      return
     }
     // 如果路由设置了requiresAuth为true，且用户未登录，重定向到登录页
     else if (to.meta.requiresAuth === true && !isLogin) {
@@ -84,6 +94,8 @@ export function setupRouterGuard(router: Router) {
 
     next()
   })
+
+  // 解析守卫（beforeResolve）
   router.beforeResolve((to) => {
     // 设置菜单高亮
     routeStore.setActiveMenu(to.meta.activeMenu ?? to.fullPath)
@@ -93,6 +105,7 @@ export function setupRouterGuard(router: Router) {
     tabStore.setCurrentTab(to.fullPath as string)
   })
 
+  // 后置钩子（afterEach）
   router.afterEach((to) => {
     // 修改网页标题
     document.title = `${to.meta.title} - ${title}`
