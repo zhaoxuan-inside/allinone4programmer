@@ -15,12 +15,11 @@ export function setupRouterGuard(router: Router) {
   // 类似于 Express 中间件中的 next() 函数：不调用它，导航就会一直挂起（页面不会有任何变化，地址栏也不变）。
 
   // 全局前置守卫（beforeEach）
-  router.beforeEach(async (to, _from, next) => {
+  router.beforeEach(async (to, _from) => {
     // 判断是否是外链，如果是直接打开网页并拦截跳转
     if (to.meta.href) {
       window.open(to.meta.href)
-      next(false) // 取消当前导航
-      return
+      return false
     }
 
     // 开始 loadingBar
@@ -34,11 +33,11 @@ export function setupRouterGuard(router: Router) {
     if (to.name === 'root') {
       if (isLogin) {
         // 已登录，重定向到首页
-        next({ path: import.meta.env.VITE_HOME_PATH, replace: true })
+        return ({ path: import.meta.env.VITE_HOME_PATH, replace: true })
       }
       else {
         // 未登录，重定向到登录页
-        next({ path: '/login', replace: true })
+        return ({ path: '/login', replace: true })
       }
       return
     }
@@ -58,8 +57,7 @@ export function setupRouterGuard(router: Router) {
     // 如果路由设置了requiresAuth为true，且用户未登录，重定向到登录页
     else if (to.meta.requiresAuth === true && !isLogin) {
       const redirect = to.name === 'not-found' ? undefined : to.fullPath
-      next({ path: '/login', query: { redirect } })
-      return
+      return ({ path: '/login', query: { redirect } })
     }
 
     // 判断路由有无进行初始化
@@ -69,30 +67,25 @@ export function setupRouterGuard(router: Router) {
         // 动态路由加载完回到根路由
         if (to.name === 'not-found') {
         // 等待权限路由加载好了，回到之前的路由,否则404
-          next({
+          return ({
             path: to.fullPath,
             replace: true,
             query: to.query,
             hash: to.hash,
           })
-          return
         }
       }
       catch {
         // 如果路由初始化失败（比如 401 错误），重定向到登录页
         const redirect = to.fullPath !== '/' ? to.fullPath : undefined
-        next({ path: '/login', query: redirect ? { redirect } : undefined })
-        return
+        return ({ path: '/login', query: redirect ? { redirect } : undefined })
       }
     }
 
     // 如果用户已登录且访问login页面，重定向到首页
     if (to.name === 'login' && isLogin) {
-      next({ path: '/' })
-      return
+      return ({ path: '/' })
     }
-
-    next()
   })
 
   // 解析守卫（beforeResolve）
