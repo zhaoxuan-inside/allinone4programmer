@@ -28,8 +28,8 @@ const rules = computed(() => {
 })
 
 const accountRef = ref({
-  account: 'super',
-  pwd: '123456',
+  account: '',
+  pwd: '',
 })
 
 const isRemember = ref(false)
