@@ -11,9 +11,16 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/build-in/login/index.vue'), // 注意这里要带上 文件后缀.vue
+    // 懒加载的组件定义，只有在真正访问的时候才会去加在组件
+    component: () =>
+      // 使用 ES 模块的动态导入语法，返回一个 Promise
+      import('@/views/build-in/login/index.vue'),
+    // meta 是路由的元信息字段，可以自定义任意数据，供路由守卫、全局组件等逻辑使用
     meta: {
+      // 通常用于动态设置浏览器标签页的标题（document.title）。
+      // 在全局路由守卫 router.afterEach 中，可以使用 to.meta.title 来更新页面标题。
       title: '登录',
+      // 自定义属性，表示当前页面不显示标签页导航
       withoutTab: true,
     },
   },

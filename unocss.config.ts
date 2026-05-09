@@ -116,16 +116,16 @@ export default defineConfig({
       // 字体系列配置：key 是生成的类名（如 .font-sans，.font-mono）
       fonts: {
         // 无衬线字体
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        // sans: ['Inter', 'system-ui', 'sans-serif'],
         // 衬线字体（可指定多个字重）
-        serif: [
-          { name: 'Merriweather', weights: ['400', '700'] },
-          'Georgia',
-        ],
+        // serif: [
+        //   { name: 'Merriweather', weights: ['400', '700'] },
+        //   'Georgia',
+        // ],
         // 等宽字体
-        mono: ['Fira Code', 'monospace'],
+        // mono: ['Fira Code', 'monospace'],
         // 手写字体
-        cursive: ['Caveat', 'cursive'],
+        // cursive: ['Caveat', 'cursive'],
       },
 
       // 是否自动将字体合并到 UnoCSS 主题的 fontFamily 中
