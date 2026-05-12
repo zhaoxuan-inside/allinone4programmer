@@ -2,9 +2,7 @@
 import type { FormInst } from 'naive-ui'
 
 const emit = defineEmits(['update:modelValue'])
-function toLogin() {
-  emit('update:modelValue', 'login')
-}
+
 const { t } = useI18n()
 
 const rules = computed(() => {
@@ -16,10 +14,17 @@ const rules = computed(() => {
     },
   }
 })
+
 const formValue = ref({
   account: '',
 })
+
 const formRef = ref<FormInst | null>(null)
+
+function toLogin() {
+  emit('update:modelValue', 'login')
+}
+
 function handleRegister() {
   formRef.value?.validate()
 }

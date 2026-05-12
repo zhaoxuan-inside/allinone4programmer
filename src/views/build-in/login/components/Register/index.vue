@@ -42,6 +42,7 @@ function handleRegister() {}
 
 <template>
   <div>
+    <!-- depth,改变标题文本的颜色灰度，数字越大颜色越淡 -->
     <n-h2 depth="3" class="text-center">
       {{ $t('login.registerTitle') }}
     </n-h2>
