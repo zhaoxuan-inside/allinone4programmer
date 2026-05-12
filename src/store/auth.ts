@@ -3,9 +3,10 @@ import { fetchLogin } from '@/service'
 import { local } from '@/utils'
 import { useRouteStore } from './router'
 import { useTabStore } from './tab'
+import type { ApiLoginInfo } from '@/typings/api/login'
 
 interface AuthStatus {
-  userInfo: Api.Login.Info | null
+  userInfo: ApiLoginInfo | null
   token: string
 }
 export const useAuthStore = defineStore('auth-store', {
@@ -67,7 +68,7 @@ export const useAuthStore = defineStore('auth-store', {
     },
 
     /* 处理登录返回的数据 */
-    async handleLoginInfo(data: Api.Login.Info) {
+    async handleLoginInfo(data: ApiLoginInfo) {
       // 将token和userInfo保存下来
       local.set('userInfo', data)
       local.set('accessToken', data.accessToken)

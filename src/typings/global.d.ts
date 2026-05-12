@@ -35,7 +35,7 @@ declare namespace Storage {
 
   interface Local {
     /* 存储用户信息 */
-    userInfo: Api.Login.Info
+    userInfo: ApiLoginInfo
     /* 存储访问token */
     accessToken: string
     /* 存储刷新token */
