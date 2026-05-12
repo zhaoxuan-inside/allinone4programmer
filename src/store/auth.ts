@@ -55,7 +55,8 @@ export const useAuthStore = defineStore('auth-store', {
     /* 用户登录 */
     async login(userName: string, password: string) {
       try {
-        const { isSuccess, data } = await fetchLogin({ userName, password })
+        // const { isSuccess, data } = await fetchLogin({ userName, password })
+        const { isSuccess, data } = await this.buildLoginResult(userName, password)
         if (!isSuccess)
           return
 
@@ -65,6 +66,24 @@ export const useAuthStore = defineStore('auth-store', {
       catch (e) {
         console.warn('[Login Error]:', e)
       }
+    },
+
+    buildLoginResult(userName: string, _password: string) {
+      const jsonString = `{
+  "name": "${userName}",
+  "email": "zhang@example.com",
+  "id": 123,
+  "role": ["admin", "user"],
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "def50200..."
+}`
+      // 假设 jsonString 是从后端获取的原始 JSON（已经是 ApiLoginInfo 的结构）
+      const data = JSON.parse(jsonString) as ApiLoginInfo
+
+      // 根据你的业务规则生成 isSuccess（例如：accessToken 存在且 id > 0）
+      const isSuccess = !!(data.accessToken && data.id)
+
+      return { isSuccess, data }
     },
 
     /* 处理登录返回的数据 */
