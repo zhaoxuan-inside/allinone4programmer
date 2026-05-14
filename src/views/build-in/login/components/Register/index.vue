@@ -61,7 +61,11 @@ function handleRegister() {}
     >
       <!-- path 属性指定这个表单项对应 model 里的哪个字段，从而使用 rules.account 的验证规则 -->
       <n-form-item path="account">
-        <!-- Naive UI 的 n-input 组件的值绑定属性是 value，所以要用 v-model:value 而不是单独的 v-model -->
+        <!--
+        Naive UI 的 n-input 组件的值绑定属性是 value，所以要用 v-model:value 而不是单独的 v-model
+        clearable 是 Naive UI 输入框（n-input）的一个布尔属性，它会在输入框右侧显示一个“清空”按钮（通常是一个小叉号 ×），点击后可以一键删除已输入的内容
+        :input-props Naive UI 的 n-input 组件暴露的一个属性，用来向内部真实 <input> 标签传递额外属性。这些属性只影响浏览器原生的行为，不会改变 Vue 数据流
+        -->
         <n-input
           v-model:value="formValue.account"
           clearable

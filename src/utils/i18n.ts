@@ -1,4 +1,9 @@
-import type { NDateLocale, NLocale } from 'naive-ui'
+import type {
+  // 日期相关组件的本地化（月/星期名称、日期格式、时间选择器的文案等）
+  NDateLocale,
+  // 全局 UI 文本本地化（按钮、分页、空状态、输入框占位等）
+  NLocale,
+} from 'naive-ui'
 import { i18n } from '@/modules/i18n'
 import { dateZhCN, zhCN } from 'naive-ui'
 

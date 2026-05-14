@@ -62,6 +62,7 @@ function handleRegister() {
           >
             {{ $t('login.resetPassword') }}
           </n-button>
+          <!-- justify 是字符串常量，直接写 justify="center"，不要加冒号，除非你想动态绑定一个变量（如 :justify="alignMode"） -->
           <n-flex justify="center">
             <n-text>{{ $t('login.haveAccountText') }}</n-text>
             <n-button
