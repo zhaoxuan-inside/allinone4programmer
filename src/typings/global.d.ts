@@ -1,21 +1,6 @@
 import type { ApiLoginInfo } from '@/typings/api/login'
 import type { EntityDict } from '@/typings/entities/dict'
 
-// 扩展全局 Window 接口，为 window 对象添加 Naive UI 相关方法
-interface Window {
-  // 属性 $loadingBar，类型为从 naive-ui 导入的 LoadingBarApi（用于全局加载进度条）
-  $loadingBar: import('naive-ui').LoadingBarApi
-  // 属性 $dialog，类型为从 naive-ui 导入的 DialogApi（对话框 API）
-  $dialog: import('naive-ui').DialogApi
-  // 属性 $message，类型为从 naive-ui 导入的 MessageApi（消息提示 API）
-  $message: import('naive-ui').MessageApi
-  // 属性 $notification，类型为从 naive-ui 导入的 NotificationApi（通知 API）
-  $notification: import('naive-ui').NotificationApi
-}
-
-declare const AMap: any
-declare const BMap: any
-
 // 声明模块，处理所有 .vue 文件的导入
 declare module '*.vue' {
   // 仅从 vue 中导入 DefineComponent 类型（不会产生运行时代码）
@@ -26,11 +11,27 @@ declare module '*.vue' {
   export default DefineComponent
 }
 
-declare namespace NaiveUI {
-  type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning'
-}
-
 declare global {
+
+  const AMap: any
+  const BMap: any
+
+  namespace NaiveUI {
+    type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning'
+  }
+
+  // 扩展全局 Window 接口，为 window 对象添加 Naive UI 相关方法
+  interface Window {
+  // 属性 $loadingBar，类型为从 naive-ui 导入的 LoadingBarApi（用于全局加载进度条）
+    $loadingBar: import('naive-ui').LoadingBarApi
+    // 属性 $dialog，类型为从 naive-ui 导入的 DialogApi（对话框 API）
+    $dialog: import('naive-ui').DialogApi
+    // 属性 $message，类型为从 naive-ui 导入的 MessageApi（消息提示 API）
+    $message: import('naive-ui').MessageApi
+    // 属性 $notification，类型为从 naive-ui 导入的 NotificationApi（通知 API）
+    $notification: import('naive-ui').NotificationApi
+  }
+
   namespace Storage {
     interface Session {
       dict: DictMap

@@ -37,9 +37,12 @@ function getLocalIcon(icon: string) {
     :color="color"
   >
     <template v-if="isLocal">
+      <!-- <i> 标签：通常用于图标展示，无特殊语义，此处作为 SVG 内容的容器。 -->
+      <!-- v-html 指令：将 getLocalIcon(icon) 返回的HTML 字符串（预期为 SVG 代码）插入到 <i> 内部，替换其子节点 -->
       <i v-html="getLocalIcon(icon)" />
     </template>
     <template v-else>
+      <!-- :icon="icon"：动态传递图标标识（如 "mdi:home" 或 "fa:heart"），由 <Icon> 组件内部解析并渲染为 <svg> 元素 -->
       <Icon :icon="icon" />
     </template>
   </n-icon>
