@@ -30,29 +30,31 @@ declare namespace NaiveUI {
   type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning'
 }
 
-declare namespace Storage {
-  interface Session {
-    dict: DictMap
-  }
+declare global {
+  namespace Storage {
+    interface Session {
+      dict: DictMap
+    }
 
-  interface Local {
+    interface Local {
     /* 存储用户信息 */
-    userInfo: ApiLoginInfo
-    /* 存储访问token */
-    accessToken: string
-    /* 存储刷新token */
-    refreshToken: string
-    /* 存储登录账号 */
-    loginAccount: any
-    /* 存储当前语言 */
-    lang: App.lang
+      userInfo: ApiLoginInfo
+      /* 存储访问token */
+      accessToken: string
+      /* 存储刷新token */
+      refreshToken: string
+      /* 存储登录账号 */
+      loginAccount: any
+      /* 存储当前语言 */
+      lang: App.lang
+    }
   }
-}
 
-declare namespace App {
-  type lang = 'zhCN' | 'enUS'
-}
+  namespace App {
+    type lang = 'zhCN' | 'enUS'
+  }
 
-interface DictMap {
-  [key: string]: EntityDict[]
+  interface DictMap {
+    [key: string]: EntityDict[]
+  }
 }
