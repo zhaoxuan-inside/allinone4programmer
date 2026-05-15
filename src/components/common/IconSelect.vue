@@ -41,7 +41,7 @@ async function fetchIconAllList(nameList: string[]) {
   // 该 Promise 在所有输入的 Promise 都成功时 resolve，或在任何一个输入的 Promise 失败时 reject
   // 如果任何一个 Promise 失败， Promise.all 会立即失败并抛出错误
     .all(
-      // map 方法便利 nameList 中的每个图标库名称，调用 fetchIconList 获取数据，返回一个 Promise 数组
+      // map 方法遍历 nameList 中的每个图标库名称，调用 fetchIconList 获取数据，返回一个 Promise 数组
       nameList.map(fetchIconList),
     )
 
@@ -269,6 +269,12 @@ function clearIcon() {
       @update:value="handleChangeTab"
     >
       <!-- <n-tab-pane> 是 Naive UI 这个 Vue 3 组件库里用来定义单个标签页内容的组件 -->
+      <!-- v-for 是 Vue 内置的列表渲染指令 -->
+      <!--
+        :key="list.prefix"
+        list.prefix，预期是每个图标库的唯一标识符
+        帮助 Vue 的虚拟 DOM diff 算法更准确地识别哪些元素被修改/添加/删除，避免渲染错误并提升性能。必须搭配 v-for 使用
+      -->
       <n-tab-pane
         v-for="(list, index) in iconList"
         :key="list.prefix"
