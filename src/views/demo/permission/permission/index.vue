@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import type { RoleType } from '@/typings/entities/role'
 import { usePermission } from '@/hooks'
 import { useAuthStore } from '@/store'
 
 const authStore = useAuthStore()
 const { hasPermission } = usePermission()
 
-const roleList: Entity.RoleType[] = ['super', 'admin', 'user']
+const roleList: RoleType[] = ['super', 'admin', 'user']
 
-function toggleUserRole(role: Entity.RoleType) {
+function toggleUserRole(role: RoleType) {
   authStore.login(role, '123456')
 }
 </script>
