@@ -19,9 +19,12 @@ export function usePermission() {
     // 角色为super可直接通过
     let has = role.includes('super')
     if (!has) {
-      if (isArray(permission))
+      if (isArray(permission)) {
         // 角色为数组, 判断是否有交集
-        has = permission.some(i => role.includes(i))
+        has = permission
+          // some() 方法检查用户角色数组中是否至少包含 permission 数组中的任意一个角色（交集非空）
+          .some(i => role.includes(i))
+      }
 
       if (isString(permission))
         // 角色为字符串, 判断是否包含
