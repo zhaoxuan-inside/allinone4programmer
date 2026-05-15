@@ -32,7 +32,8 @@ import { LabelLayout, UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import { useTemplateRef } from 'vue'
 
-// 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
+// ComposeOption：ECharts 提供的工具类型，用于将多个系列类型和组件类型合并成一个完整且不冲突的 ECOption 类型
+// 实际图表配置可能同时包含 title、tooltip、series（可以是多种系列类型），直接使用联合类型会有属性重叠问题。ComposeOption 会智能合并，使类型提示更准确
 export type ECOption = echarts.ComposeOption<
   | BarSeriesOption
   | PieSeriesOption
@@ -47,6 +48,7 @@ export type ECOption = echarts.ComposeOption<
 >
 
 // 注册必须的组件
+// echarts.use：注册所需的组件、图表、功能、渲染器。未在此处注册的组件如果在 chartOptions 中使用，会导致图表无法渲染或报错
 echarts.use([
   TitleComponent,
   TooltipComponent,
@@ -69,25 +71,29 @@ echarts.use([
  * @description 按需引入图表组件，没注册的组件需要先引入
  */
 export function useEcharts(ref: string, chartOptions: Ref<ECOption>) {
-  const el = useTemplateRef<HTMLLIElement>(ref)
+  const ele = useTemplateRef<HTMLLIElement>(ref)
 
   const appStore = useAppStore()
 
   let chart: echarts.ECharts | null = null
 
-  const { width, height } = useElementSize(el)
+  const { width, height } = useElementSize(ele)
 
-  const isRendered = () => Boolean(el && chart)
+  const isRendered = () => Boolean(ele && chart)
 
   async function render() {
     // 宽或高不存在时不渲染
     if (!width || !height)
       return
 
-    const chartTheme = appStore.colorMode ? 'dark' : 'light'
+    const chartTheme = appStore.colorMode
+      ? 'dark'
+      : 'light'
+
+    // await nextTick()：等待 Vue 完成 DOM 更新，确保 el.value 已经真正挂载
     await nextTick()
-    if (el) {
-      chart = echarts.init(el.value, chartTheme)
+    if (ele) {
+      chart = echarts.init(ele.value, chartTheme)
       update(chartOptions.value)
     }
   }
@@ -103,18 +109,26 @@ export function useEcharts(ref: string, chartOptions: Ref<ECOption>) {
     chart = null
   }
 
-  watch([width, height], async ([newWidth, newHeight]) => {
-    if (isRendered() && newWidth && newHeight)
-      chart?.resize()
-  })
+  // 监听容器尺寸变化，如果图表已渲染且新尺寸有效，调用 resize() 重新适应大小
+  watch(
+    [width, height],
+    async ([newWidth, newHeight]) => {
+      if (isRendered() && newWidth && newHeight)
+        chart?.resize()
+    },
+  )
 
-  watch(chartOptions, (newValue) => {
-    update(newValue)
-  })
+  watch(
+    chartOptions,
+    (newValue) => {
+      update(newValue)
+    },
+  )
 
   onMounted(() => {
     render()
   })
+
   onUnmounted(() => {
     destroy()
   })
