@@ -5,8 +5,10 @@ export function install(app: App) {
   // app.use(plugin) 的内部逻辑就是调用 plugin.install(app)，并把 app 作为参数传入；
   // 这样插件内部才能拿到应用实例去做注册。
   Object.values(
-    import.meta.glob<{ install: (app: App) => void }>('@/directives/*.ts', {
-      eager: true,
-    }),
-  ).map(i => app.use(i))
+    import.meta
+      .glob<{ install: (app: App) => void }>
+      ('@/directives/*.ts', {
+        eager: true,
+      }),
+  ).map(module => app.use(module))
 }

@@ -2,11 +2,15 @@
 @import './transition.css';
 @import './naive.css';
 
-html,
-body,
-#app {
+
+
+/* 让 <html>、<body> 和 #app 的高度都占满整个浏览器窗口 */
+/* #app： ID 选择器 */
+html,body,#app {
   height: 100%;
 }
+
+/* 类选择器 */
 .color-weak {
   filter: invert(80%);
 }
