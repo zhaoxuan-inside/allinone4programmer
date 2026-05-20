@@ -12,13 +12,19 @@ html,body,#app {
 
 /* 类选择器 */
 .color-weak {
+  /* 
+  filter: CSS 滤镜属性
+  invert(80%) — 反色滤镜。0% 表示无变化，100% 表示完全反色（黑变白、红变青等）。80% 表示将每个颜色通道按照 80% 的比例反转，产生一种偏色弱化的视觉效果
+  */
   filter: invert(80%);
 }
 
 .gray-mode {
+  /* grayscale(100%) — 将元素及其所有子元素转换为完全灰度（黑白） */
   filter: grayscale(100%);
 }
 
 .drag-handle {
+  /* move — 将鼠标光标更改为移动光标（通常是四个箭头组成的十字或张开的手掌），提示用户该区域可用于拖拽移动 */
   cursor: move;
 }
