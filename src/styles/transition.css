@@ -1,88 +1,143 @@
-/* fade */
+/* 
+.fade-enter-active, .fade-leave-active 结合，.fade-enter-from, .fade-leave-to 实现：
+进入：元素从 opacity: 0（.fade-enter-from）平滑过渡到 opacity: 1（.fade-leave-from)
+离开：元素从 opacity: 1（.fade-leave-from）平滑过渡到 opacity: 0（.fade-leave-to）
+*/
+
+/* .fade-enter-active: 整个进入动画的活动状态，从元素插入 DOM 开始到动画结束全程生效 */
 .fade-enter-active,
+/* .fade-leave-active：整个离开动画的活动状态，从元素准备移除到动画结束全程生效 */
 .fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
+  transition:
+   /*指定要过渡的 CSS 属性名称。这里只监听 opacity（透明度）的变化  */
+    opacity 
+    0.3s 
+    /* 缓动函数：ease-in-out（先加速后减速） */
+    ease-in-out;
 }
+
+/* 进入动画的起始状态 */
 .fade-enter-from,
+/* 离开动画的结束状态 */
 .fade-leave-to {
+  /* 将元素的透明度设置为 0，即完全不可见 */
   opacity: 0;
 }
 
-/* fade-slide */
+/* .fade-slide-enter-active：
+在 Vue 的 <transition> 组件中，当设置 name="fade-slide" 时，这个类在整个进入动画期间被添加到元素上。
+定义了进入和离开动画的过渡属性（持续时间、缓动函数、监听的属性） 
+*/
 .fade-slide-leave-active,
 .fade-slide-enter-active {
-  transition: all 0.3s;
+  transition: 
+    /* all：表示监听所有能过渡的 CSS 属性。
+    当任何属性发生变化（例如 opacity、transform、color、width 等），都会触发过渡动画。这比单独指定某个属性更宽泛，但可能导致一些不必要的过渡（比如鼠标悬停改变颜色时也会动画），不过在此场景下通常安全。  
+    */
+    all 
+    0.3s;
 }
+
+/* fade-slide 动画的进入起始状态 */
 .fade-slide-enter-from {
   opacity: 0;
+  /* translateX(-30px)：将元素沿 X 轴（水平方向）向左移动 30 像素（负值向左，正值向右） */
   transform: translateX(-30px);
 }
+
 .fade-slide-leave-to {
   opacity: 0;
+  /* translateX(30px)：将元素沿 X 轴（水平方向）向右移动 30 像素（负值向左，正值向右） */
   transform: translateX(30px);
 }
 
-/* fade-bottom */
 .fade-bottom-enter-active,
 .fade-bottom-leave-active {
   transition: opacity 0.25s, transform 0.3s;
 }
+
 .fade-bottom-enter-from {
   opacity: 0;
+  /* 负数 -10% 表示向上移动 */
   transform: translateY(-10%);
 }
+
 .fade-bottom-leave-to {
   opacity: 0;
+  /* 正数 10% 表示向下移动（Y 轴正方向） */
   transform: translateY(10%);
 }
 
-/* fade-scale */
 .fade-scale-leave-active,
 .fade-scale-enter-active {
   transition: all 0.28s;
 }
+
 .fade-scale-enter-from {
   opacity: 0;
+  /* 缩放因子：1.2 表示放大到原来的 120% */
   transform: scale(1.2);
 }
+
 .fade-scale-leave-to {
   opacity: 0;
+  /* 缩放因子：0.8 表示缩小到原来的 80% */
   transform: scale(0.8);
 }
 
-/* zoom-fade */
 .zoom-fade-enter-active,
 .zoom-fade-leave-active {
-  transition: transform 0.2s, opacity 0.3s ease-out;
+  transition: 
+    transform 
+    0.2s, 
+    opacity 
+    0.3s
+     /*ease-out	减速（由快到慢）	物体进入、出现效果  */
+    ease-out;
 }
+
 .zoom-fade-enter-from {
   opacity: 0;
   transform: scale(0.92);
 }
+
 .zoom-fade-leave-to {
   opacity: 0;
   transform: scale(1.06);
 }
 
-/* zoom-out */
 .zoom-out-enter-active,
 .zoom-out-leave-active {
-  transition: opacity 0.1s ease-in-out, transform 0.15s ease-out;
+  transition: 
+    opacity 
+    0.1s 
+    /* ease-in-out	先加速后减速（与ease相似，但两端更缓）	对称动画、循环效果 */
+    ease-in-out, 
+    transform 
+    0.15s 
+    ease-out;
 }
+
 .zoom-out-enter-from,
 .zoom-out-leave-to {
   opacity: 0;
   transform: scale(0);
 }
 
-/* fade */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s, filter 0.2s ease-out;
+  transition: 
+    opacity 
+    0.2s, 
+    /* 用于对元素的视觉输出应用图形特效 */
+    filter 
+    0.2s 
+    ease-out;
 }
 
 .fade-enter-from {
   opacity: 0;
+  /* blur(px)	高斯模糊 */
   filter: blur(10px);
 }
 
