@@ -26,8 +26,11 @@ const themes = [
 const currentTheme = ref(themes[0])
 
 // 动画统计数据
+// keyof 作用在一个类型上，返回该类型所有公共属性名组成的联合类型
+// typeof 用在类型上下文（即类型注解、类型别名等位置），用来获取一个变量或常量的类型
 function animateNumber(target: number, key: keyof typeof animatedStats.value, duration = 2000) {
   const start = animatedStats.value[key]
+  // performance.now() 是浏览器提供的一个高精度时间戳方法，属于 Performance API。它返回当前页面从启动时刻（页面所在的上下文开始计时）到调用该方法时经过的毫秒数，且带小数部分（微秒级精度）
   const startTime = performance.now()
 
   const animate = (currentTime: number) => {
@@ -45,6 +48,7 @@ function animateNumber(target: number, key: keyof typeof animatedStats.value, du
     }
   }
 
+  // 将 animate 方法注册到调度器
   requestAnimationFrame(animate)
 }
 
@@ -81,18 +85,48 @@ onMounted(() => {
 <template>
   <div class="min-h-screen bg-white">
     <!-- 导航栏 -->
+    <!-- z-50：设置较高的 z-index，确保导航栏在其他内容之上 -->
+    <!-- shadow-sm：添加微弱的阴影，增加层次感 -->
     <nav class="relative z-50 bg-white shadow-sm">
+      <!-- max-w-7xl：最大宽度为 80rem（1280px），防止在大屏幕上内容过宽 -->
+      <!-- mx-auto：水平居中 -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- flex：启用弹性布局 -->
+        <!-- justify-between：两端对齐 -->
+        <!-- items-center：垂直居中对齐 -->
+        <!-- py-4：上下内边距 1rem(手机端) -->
         <div class="flex justify-between items-center py-4">
+          <!-- space-x-4：子元素之间间距 1rem -->
           <div class="flex items-center space-x-4">
             <div class="w-10 h-10 flex items-center justify-center">
               <img src="/favicon.svg" alt="Nova Admin Logo" class="w-10 h-10">
             </div>
             <span class="text-2xl font-bold text-gray-900">Nova Admin</span>
           </div>
+          <!--
+          hidden	在所有屏幕尺寸下默认隐藏该元素
+          md:flex 在中等屏幕（768px）及以上尺寸下显示该元素，并启用 flex 布局，覆盖 hidden
+          space-x-8	给直接子元素（除第一个）添加 左边距 2rem（32px），实现水平间距
+           -->
           <div class="hidden md:flex items-center space-x-8">
+            <!--
+            #features: 页面内锚点链接，用来跳转到 id=features 的元素
+            transition-colors	为颜色变化添加过渡动画（通常 150ms），使 hover 效果更平滑。
+            -->
             <a href="#features" class="text-gray-600 hover:text-gray-900 transition-colors">功能特性</a>
             <a href="#demo" class="text-gray-600 hover:text-gray-900 transition-colors">在线演示</a>
+
+            <!-- router-link:
+             Vue Router 提供的组件，用于声明式导航，不会刷新页面，而是通过路由切换组件。
+             编译后生成一个 <a> 标签，但会拦截点击事件，使用 Vue Router 的内部路由跳转
+             -->
+            <!-- to="/login" 指定目标路由路径，点击后会将浏览器 URL 变为 /login，并渲染对应的路由组件 -->
+            <!-- rounded-full: 完全圆角（药丸形状） -->
+            <!-- hover:shadow-lg	悬停时增加较大的阴影效果 -->
+            <!-- transition-all	所有属性变化（颜色、阴影、变形等）都带有过渡动画 -->
+            <!-- transform	启用 CSS 变换（配合 scale-105 使用） -->
+            <!-- hover:scale-105	悬停时放大到 1.05 倍 -->
+            <!-- style="background: linear-gradient(to right, #56CB46, #4CAF50);" 设置背景为绿色渐变（从左到右，从亮绿 #56CB46 到深绿 #4CAF50），覆盖默认背景 -->
             <router-link
               to="/login"
               class="text-white px-6 py-2 rounded-full hover:shadow-lg transition-all transform hover:scale-105"
@@ -105,7 +139,6 @@ onMounted(() => {
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="relative overflow-hidden bg-gradient-to-br from-green-50 via-white to-emerald-50">
       <div class="absolute inset-0 bg-grid-pattern opacity-5" />
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">

@@ -1,6 +1,6 @@
-import type { RoleType, User } from '@/typings/entities'
+import type { EntityUser, RoleType } from '@/typings/entities'
 
-export interface ApiLoginInfo extends User {
+export type ApiLoginInfo = EntityUser & {
   id: number
   role: RoleType[]
   accessToken: string
